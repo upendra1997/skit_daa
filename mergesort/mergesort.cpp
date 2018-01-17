@@ -1,35 +1,44 @@
 #include<bits/stdc++.h>
-#define exch(array,i,j){int temp=array[i];array[i]=array[j];array[j]=temp;}
 using namespace std;
 
-void merge(vector<int> &array, int l, int m, int h){
-	int low,low1,high,high1;
-	for(int i=low;i<high;i++)
+vector<int> merge(vector<int>& array1,vector<int>& array2){
+	vector<int> result;
+	int i=0,j=0;
+	while(i<array1.size() and j<array2.size()){
+		if(array1[i]<array2[j])
+			result.push_back(array1[i++]);
+		else
+			result.push_back(array2[j++]);
+	}
+	if(i<array1.size())
+		while(i<array1.size())
+			result.push_back(array1[i++]);
+	if(j<array2.size())
+		while(j<array2.size())
+			result.push_back(array2[j++]);
+	return result;
 }
 
-void mergesort(vector<int> &array, int low, int high){
-	if(high-low==1) return;
-	if(high-low == 2){
-		if(array[low]<array[high-1]) return;
-		exch(array,low,high-1);
-		return;
-	}
-	int mid = low+(high-low)/2;
-	printf("merge low=%d mid=%d high=%d\n",low,mid,high);
-	mergesort(array, low, mid);
-	mergesort(array, mid, high);
-	merge(array, low, mid, high);
+vector<int> mergesort(vector<int> &array){
+	if(array.size()==1) return array;
+	int mid = array.size()/2;
+	vector<int>array1(array.begin(),array.begin()+mid);
+	vector<int>array2(array.begin()+mid,array.end());
+	vector<int> arr1=mergesort(array1), arr2=mergesort(array2);
+	return merge(arr1,arr2);
 }
 
 int main()
 {
 	vector<int> vec;
 	int temp;
-	while(cin>>temp){
-		vec.push_back(temp);
+	cin>>temp;
+	while(temp--){
+		int t=0;
+		cin>>t;
+		vec.push_back(t);
 	}
-	int len =  vec.size();
-	mergesort(vec,0,len);
-	for(int i=0;i<vec.size();i++) printf("%d ",vec[i]); printf("\n");
+	vector<int> result = mergesort(vec);
+	for(int i=0;i<result.size();i++) cout<<result[i]<<" "; cout<<"\n";
 	return 0;
 }
