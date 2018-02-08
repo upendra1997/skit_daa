@@ -31,7 +31,10 @@ int main()
 {
 	vector<int> vec;
 	int temp;
-	while(cin>>temp){
+	int n=0;
+	cin>>n;
+	while(n--){
+		cin>>temp;
 		vec.push_back(temp);
 	}
 	int len =  vec.size();
